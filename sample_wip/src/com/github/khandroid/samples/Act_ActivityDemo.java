@@ -16,21 +16,23 @@
 
 package com.github.khandroid.samples;
 
-import java.io.IOException;
-import khandroid.ext.apache.http.client.ClientProtocolException;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
-import com.github.khandroid.rest.request.GetRequestBuilder;
+import com.github.khandroid.functionality.RestExchangeCompletedListenerAdapter;
+import com.github.khandroid.misc.KhandroidLog;
+import com.github.khandroid.rest.RestExchange;
+import com.github.khandroid.rest.RestExchangeFailedException;
+import com.github.khandroid.rest.RestResponse;
 
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
 public class Act_ActivityDemo extends HostActivity {
-    private DefaultActivityRestFunctionality mHttpFunc;
+    private DefaultActivityRestFunctionality mRestFunc;
 
 
     @Override
@@ -38,15 +40,16 @@ public class Act_ActivityDemo extends HostActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__activity_demo);
 
-        mHttpFunc = new DefaultActivityRestFunctionality(this);
+        KhandroidLog.initLogTag("PRESNI");
+
+        mRestFunc = new DefaultActivityRestFunctionality(this);
         initView();
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork() // or .detectAll() for all detectable problems
-                .penaltyLog()
-                .build());
+                                                                        .detectDiskReads()
+                                                                        .detectDiskWrites()
+                                                                        .penaltyLog()
+                                                                        .build());
     }
 
 
@@ -61,19 +64,26 @@ public class Act_ActivityDemo extends HostActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetRequestBuilder gb = new GetRequestBuilder("http://khogre.bolyartech.com/");
-                String rez;
-                try {
-                    rez = mHttpFunc.execute(gb.build());
-                    int i = 1;
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                onClickie();
             }
         };
     }
+
+
+    private void onClickie() {
+        mRestFunc.executeExchange(new TestX(), new RestExchangeCompletedListenerAdapter<Long>() {
+            @Override
+            public void exchangeCompletedOk(Long x) {
+                int i = 1;
+            }
+
+        });
+    }
+
+    
+    private void a() {
+//        mKatExecutor.execute(aTask);
+//        mRestAsyncExecutor.execute(new TestX());
+    }
+    
 }
