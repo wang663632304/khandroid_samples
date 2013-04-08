@@ -21,8 +21,12 @@ import android.os.StrictMode;
 import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
+import com.github.khandroid.activity.functionalities.ActivityKat2ExecutorFunctionality;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
 import com.github.khandroid.functionality.RestExchangeCompletedListenerAdapter;
+import com.github.khandroid.kat.Kat2Executor;
+import com.github.khandroid.kat.Kat2Executor.Kat2ExecutorFunctionality;
+import com.github.khandroid.kat.KhandroidAsyncTask2;
 import com.github.khandroid.misc.KhandroidLog;
 import com.github.khandroid.rest.RestExchange;
 import com.github.khandroid.rest.RestExchangeFailedException;
@@ -33,6 +37,7 @@ import static com.github.khandroid.misc.ActivityUtils.*;
 
 public class Act_ActivityDemo extends HostActivity {
     private DefaultActivityRestFunctionality mRestFunc;
+    private ActivityKat2ExecutorFunctionality mKatExecutorFunc;
 
 
     @Override
@@ -43,6 +48,8 @@ public class Act_ActivityDemo extends HostActivity {
         KhandroidLog.initLogTag("PRESNI");
 
         mRestFunc = new DefaultActivityRestFunctionality(this);
+        
+        mKatExecutorFunc = new ActivityKat2ExecutorFunctionality(this);
         initView();
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -71,19 +78,47 @@ public class Act_ActivityDemo extends HostActivity {
 
 
     private void onClickie() {
-        mRestFunc.executeExchange(new TestX(), new RestExchangeCompletedListenerAdapter<Long>() {
-            @Override
-            public void exchangeCompletedOk(Long x) {
-                int i = 1;
-            }
-
-        });
+        
+        
+//        mRestFunc.executeExchange(new TestX(), new RestExchangeCompletedListenerAdapter<Long>() {
+//            @Override
+//            public void exchangeCompletedOk(Long x) {
+//                int i = 1;
+//            }
+//
+//        });
     }
 
     
+    private class NewTask extends KhandroidAsyncTask2<Void, Void, Long> {
+        private Long ret = null;
+        
+        @Override
+        protected Long doInBackground(Void... params) {
+            RestExchangeCompletedListenerAdapter<Long> listener = new RestExchangeCompletedListenerAdapter<Long>() {
+                @Override
+                public void exchangeCompletedOk(Long x) {
+                    ret = x;
+                }
+            };
+            
+            mRestFunc.executeExchange(new TestX(), listener);
+                                      
+            return ret;
+        }
+    }
+    
+    
     private void a() {
-//        mKatExecutor.execute(aTask);
-//        mRestAsyncExecutor.execute(new TestX());
+        KhandroidAsyncTask2.TaskCompletedListener<Long> listener = new KhandroidAsyncTask2.TaskCompletedListener<Long>() {
+            @Override
+            public void onTaskCompleted(Long result) {
+                int i = 1;
+            }
+        };
+        
+        mKatExecutorFunc.execute(new NewTask(), listener);
+//        mRestAsyncExecutorFunc.execute(new TestX());
     }
     
 }
