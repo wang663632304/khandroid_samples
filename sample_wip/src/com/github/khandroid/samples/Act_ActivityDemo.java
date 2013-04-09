@@ -52,8 +52,7 @@ public class Act_ActivityDemo extends HostActivity {
         mKatExecutorFunc = new ActivityKat2ExecutorFunctionality(this);
         initView();
 
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                                                                        .detectDiskReads()
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
                                                                         .detectDiskWrites()
                                                                         .penaltyLog()
                                                                         .build());
