@@ -16,28 +16,23 @@
 
 package com.github.khandroid.samples;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
-import com.github.khandroid.activity.functionalities.ActivityKat2ExecutorFunctionality;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
-import com.github.khandroid.functionality.RestExchangeCompletedListenerAdapter;
-import com.github.khandroid.kat.Kat2Executor;
-import com.github.khandroid.kat.Kat2Executor.Kat2ExecutorFunctionality;
-import com.github.khandroid.kat.KhandroidAsyncTask2;
+import com.github.khandroid.kat.ActivityKat3ExecutorFunctionality;
+import com.github.khandroid.kat.Kat3Executor.TaskExecutorListener;
+import com.github.khandroid.kat.KhandroidAsyncTask3;
 import com.github.khandroid.misc.KhandroidLog;
-import com.github.khandroid.rest.RestExchange;
-import com.github.khandroid.rest.RestExchangeFailedException;
-import com.github.khandroid.rest.RestResponse;
-
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
 public class Act_ActivityDemo extends HostActivity {
     private DefaultActivityRestFunctionality mRestFunc;
-    private ActivityKat2ExecutorFunctionality mKatExecutorFunc;
+    private ActivityKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
 
 
     @Override
@@ -49,7 +44,7 @@ public class Act_ActivityDemo extends HostActivity {
 
         mRestFunc = new DefaultActivityRestFunctionality(this);
         
-        mKatExecutorFunc = new ActivityKat2ExecutorFunctionality(this);
+        mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Void, Long>(this);
         initView();
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
@@ -77,31 +72,22 @@ public class Act_ActivityDemo extends HostActivity {
 
 
     private void onClickie() {
-        
-        
-//        mRestFunc.executeExchange(new TestX(), new RestExchangeCompletedListenerAdapter<Long>() {
-//            @Override
-//            public void exchangeCompletedOk(Long x) {
-//                int i = 1;
-//            }
-//
-//        });
+        a();
     }
 
     
-    private class NewTask extends KhandroidAsyncTask2<Void, Void, Long> {
-        private Long ret = null;
+    private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
+        private Long ret = 1l;
         
         @Override
-        protected Long doInBackground(Void... params) {
-            RestExchangeCompletedListenerAdapter<Long> listener = new RestExchangeCompletedListenerAdapter<Long>() {
-                @Override
-                public void exchangeCompletedOk(Long x) {
-                    ret = x;
-                }
-            };
-            
-            mRestFunc.executeExchange(new TestX(), listener);
+        protected Long doInBackground() {
+            KhandroidLog.d("taskaaaa");
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
                                       
             return ret;
         }
@@ -109,15 +95,24 @@ public class Act_ActivityDemo extends HostActivity {
     
     
     private void a() {
-        KhandroidAsyncTask2.TaskCompletedListener<Long> listener = new KhandroidAsyncTask2.TaskCompletedListener<Long>() {
+        TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
             @Override
             public void onTaskCompleted(Long result) {
                 int i = 1;
             }
+
+            @Override
+            public void onTaskPublishProgress(Void... progress) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTaskCancelled() {
+                // TODO Auto-generated method stub
+            }
         };
         
-        mKatExecutorFunc.execute(new NewTask(), listener);
-//        mRestAsyncExecutorFunc.execute(new TestX());
+        mKatExecutorFunc.execute(new NewTask(), listener, (Void[]) null);
     }
     
 }
