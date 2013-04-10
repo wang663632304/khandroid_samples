@@ -1,12 +1,9 @@
 /*
  * Copyright (C) 2012-2013 Ognyan Bankov
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,103 +18,111 @@ import android.os.StrictMode;
 import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
-import com.github.khandroid.activity.functionalities.ActivityKat2ExecutorFunctionality;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
-import com.github.khandroid.functionality.RestExchangeCompletedListenerAdapter;
-import com.github.khandroid.kat.Kat2Executor;
-import com.github.khandroid.kat.Kat2Executor.Kat2ExecutorFunctionality;
-import com.github.khandroid.kat.KhandroidAsyncTask2;
+import com.github.khandroid.kat.ActivityKat3ExecutorFunctionality;
+import com.github.khandroid.kat.Kat3Executor.TaskExecutorListener;
+import com.github.khandroid.kat.KhandroidAsyncTask3;
 import com.github.khandroid.misc.KhandroidLog;
-import com.github.khandroid.rest.RestExchange;
-import com.github.khandroid.rest.RestExchangeFailedException;
-import com.github.khandroid.rest.RestResponse;
-
 import static com.github.khandroid.misc.ActivityUtils.*;
 
-
 public class Act_ActivityDemo extends HostActivity {
-    private DefaultActivityRestFunctionality mRestFunc;
-    private ActivityKat2ExecutorFunctionality mKatExecutorFunc;
+   private DefaultActivityRestFunctionality mRestFunc;
+   private ActivityKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
 
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.act__activity_demo);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act__activity_demo);
+      KhandroidLog.initLogTag("PRESNI");
 
-        KhandroidLog.initLogTag("PRESNI");
+      mRestFunc = new DefaultActivityRestFunctionality(this);
 
-        mRestFunc = new DefaultActivityRestFunctionality(this);
-        
-        mKatExecutorFunc = new ActivityKat2ExecutorFunctionality(this);
-        initView();
+      mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Void, Long>(this);
+      attach(mKatExecutorFunc);
+      mKatExecutorFunc.onCreate(savedInstanceState);
+      initView();
 
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
-                                                                        .detectDiskWrites()
-                                                                        .penaltyLog()
-                                                                        .build());
-    }
+      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
+            .detectDiskWrites().penaltyLog().build());
+   }
 
+   @Override
+   @Deprecated
+   public Object onRetainNonConfigurationInstance() {
+      return mKatExecutorFunc.onRetainNonConfigurationInstance();
+   }
+   
+   private void initView() {
+      View view = getWindow().getDecorView().findViewById(android.R.id.content);
 
-    private void initView() {
-        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+      initButton(view, R.id.btn_make_request, createBtnClickListener());
+   }
 
-        initButton(view, R.id.btn_make_request, createBtnClickListener());
-    }
+   private View.OnClickListener createBtnClickListener() {
+      return new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+            onClickie();
+         }
+      };
+   }
 
+   private void onClickie() {
+      a();
+   }
 
-    private View.OnClickListener createBtnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickie();
-            }
-        };
-    }
+   private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
+      private Long ret = 1l;
 
+      @Override
+      protected Long doInBackground(Void... params) {
+         KhandroidLog.d("taskaaaa");
+         try {
+            Thread.sleep(4000);
+         } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
 
-    private void onClickie() {
-        
-        
-//        mRestFunc.executeExchange(new TestX(), new RestExchangeCompletedListenerAdapter<Long>() {
-//            @Override
-//            public void exchangeCompletedOk(Long x) {
-//                int i = 1;
-//            }
-//
-//        });
-    }
+         return 1l;
+      }
+   }
 
-    
-    private class NewTask extends KhandroidAsyncTask2<Void, Void, Long> {
-        private Long ret = null;
-        
-        @Override
-        protected Long doInBackground(Void... params) {
-            RestExchangeCompletedListenerAdapter<Long> listener = new RestExchangeCompletedListenerAdapter<Long>() {
-                @Override
-                public void exchangeCompletedOk(Long x) {
-                    ret = x;
-                }
-            };
-            
-            mRestFunc.executeExchange(new TestX(), listener);
-                                      
-            return ret;
-        }
-    }
-    
-    
-    private void a() {
-        KhandroidAsyncTask2.TaskCompletedListener<Long> listener = new KhandroidAsyncTask2.TaskCompletedListener<Long>() {
-            @Override
-            public void onTaskCompleted(Long result) {
-                int i = 1;
-            }
-        };
-        
-        mKatExecutorFunc.execute(new NewTask(), listener);
-//        mRestAsyncExecutorFunc.execute(new TestX());
-    }
-    
+   private void a() {
+      TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
+         @Override
+         public void onTaskCompleted(Long result) {
+            KhandroidLog.d("onTaskCompleted " + result);
+         }
+
+         @Override
+         public void onTaskPublishProgress(Void... progress) {
+            KhandroidLog.d("onTaskPublishProgress");
+         }
+
+         @Override
+         public void onTaskCancelled() {
+            KhandroidLog.d("onTaskCancelled");
+         }
+
+         @Override
+         public void onContinueWithTask() {
+            KhandroidLog.d("onContinueWithTask");
+         }
+
+         @Override
+         public void onTaskHasBeenCompleted(Long result) {
+            KhandroidLog.d("onTaskHasBeenCompleted " + result);
+         }
+
+         @Override
+         public void onTaskHasBeenCancelled() {
+            KhandroidLog.d("onTaskHasBeenCancelled");
+         }
+      };
+
+      mKatExecutorFunc.execute(new NewTask(), listener, (Void[]) null);
+   }
+
 }
