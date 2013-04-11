@@ -25,104 +25,117 @@ import com.github.khandroid.kat.KhandroidAsyncTask3;
 import com.github.khandroid.misc.KhandroidLog;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
+
 public class Act_ActivityDemo extends HostActivity {
-   private DefaultActivityRestFunctionality mRestFunc;
-   private ActivityKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
+    private DefaultActivityRestFunctionality mRestFunc;
+    private ActivityKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
 
-   @Override
-   protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.act__activity_demo);
 
-      KhandroidLog.initLogTag("PRESNI");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act__activity_demo);
 
-      mRestFunc = new DefaultActivityRestFunctionality(this);
+        KhandroidLog.initLogTag("PRESNI");
 
-      mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Void, Long>(this);
-      attach(mKatExecutorFunc);
-      mKatExecutorFunc.onCreate(savedInstanceState);
-      initView();
+        mRestFunc = new DefaultActivityRestFunctionality(this);
 
-      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
-            .detectDiskWrites().penaltyLog().build());
-   }
+        mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Void, Long>(this);
+        attach(mKatExecutorFunc);
+        mKatExecutorFunc.onCreate(savedInstanceState);
+        initView();
 
-   @Override
-   @Deprecated
-   public Object onRetainNonConfigurationInstance() {
-      return mKatExecutorFunc.onRetainNonConfigurationInstance();
-   }
-   
-   private void initView() {
-      View view = getWindow().getDecorView().findViewById(android.R.id.content);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
+                                                                        .detectDiskWrites().penaltyLog().build());
+    }
 
-      initButton(view, R.id.btn_make_request, createBtnClickListener());
-   }
 
-   private View.OnClickListener createBtnClickListener() {
-      return new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-            onClickie();
-         }
-      };
-   }
+    @Override
+    @Deprecated
+    public Object onRetainNonConfigurationInstance() {
+        return mKatExecutorFunc.onRetainNonConfigurationInstance();
+    }
 
-   private void onClickie() {
-      a();
-   }
 
-   private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
-      private Long ret = 1l;
+    private void initView() {
+        View view = getWindow().getDecorView().findViewById(android.R.id.content);
 
-      @Override
-      protected Long doInBackground(Void... params) {
-         KhandroidLog.d("taskaaaa");
-         try {
-            Thread.sleep(4000);
-         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }
+        initButton(view, R.id.btn_make_request, createBtnClickListener());
+    }
 
-         return 1l;
-      }
-   }
 
-   private void a() {
-      TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
-         @Override
-         public void onTaskCompleted(Long result) {
-            KhandroidLog.d("onTaskCompleted " + result);
-         }
+    private View.OnClickListener createBtnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickie();
+            }
+        };
+    }
 
-         @Override
-         public void onTaskPublishProgress(Void... progress) {
-            KhandroidLog.d("onTaskPublishProgress");
-         }
 
-         @Override
-         public void onTaskCancelled() {
-            KhandroidLog.d("onTaskCancelled");
-         }
+    private void onClickie() {
+        a();
+    }
 
-         @Override
-         public void onContinueWithTask() {
-            KhandroidLog.d("onContinueWithTask");
-         }
+    private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
+        private Long ret = 1l;
 
-         @Override
-         public void onTaskHasBeenCompleted(Long result) {
-            KhandroidLog.d("onTaskHasBeenCompleted " + result);
-         }
 
-         @Override
-         public void onTaskHasBeenCancelled() {
-            KhandroidLog.d("onTaskHasBeenCancelled");
-         }
-      };
+        @Override
+        protected Long doInBackground(Void... params) {
+            KhandroidLog.d("taskaaaa");
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
-      mKatExecutorFunc.execute(new NewTask(), listener, (Void[]) null);
-   }
+            return 1l;
+        }
+    }
+
+
+    private void a() {
+        TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
+            @Override
+            public void onTaskCompleted(Long result) {
+                KhandroidLog.d("onTaskCompleted " + result);
+            }
+
+
+            @Override
+            public void onTaskPublishProgress(Void... progress) {
+                KhandroidLog.d("onTaskPublishProgress");
+            }
+
+
+            @Override
+            public void onTaskCancelled() {
+                KhandroidLog.d("onTaskCancelled");
+            }
+
+
+            @Override
+            public void onContinueWithTask() {
+                KhandroidLog.d("onContinueWithTask");
+            }
+
+
+            @Override
+            public void onTaskHasBeenCompleted(Long result) {
+                KhandroidLog.d("onTaskHasBeenCompleted " + result);
+            }
+
+
+            @Override
+            public void onTaskHasBeenCancelled() {
+                KhandroidLog.d("onTaskHasBeenCancelled");
+            }
+        };
+
+        mKatExecutorFunc.execute(new NewTask(), listener, (Void[]) null);
+    }
 
 }
