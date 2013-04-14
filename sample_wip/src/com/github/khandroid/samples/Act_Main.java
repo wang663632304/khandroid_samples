@@ -54,8 +54,8 @@ public class Act_Main extends Activity {
         mBtnFragment.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                
+                Intent intent = new Intent(Act_Main.this, Act_FragmentDemo.class);
+                startActivity(intent);
             }
         });
     }
