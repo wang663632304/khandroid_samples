@@ -88,8 +88,7 @@ public class Act_ActivityDemo extends HostActivity {
             try {
                 Thread.sleep(4000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                // it is ok to get interrupted
             }
 
             return 1l;
