@@ -4,9 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-	<TextView
+	<Button
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:text="sadadas"
-	    />
+	    android:layout_height="wrap_content"
+    	android:id="@+id/btn_make_request"
+    	android:text="@string/act__main__btn_make_request"
+	/>
 </LinearLayout>

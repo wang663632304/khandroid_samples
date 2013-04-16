@@ -36,7 +36,7 @@ public class Act_ActivityDemo extends HostActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__activity_demo);
 
-        KhandroidLog.initLogTag("PRESNI");
+        KhandroidLog.initLogTag("KhandroidSample");
 
         mRestFunc = new DefaultActivityRestFunctionality(this);
 
@@ -46,7 +46,7 @@ public class Act_ActivityDemo extends HostActivity {
         initView();
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads()
-                                                                        .detectDiskWrites().penaltyLog().build());
+                .detectDiskWrites().penaltyLog().build());
     }
 
 
@@ -68,20 +68,17 @@ public class Act_ActivityDemo extends HostActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickie();
+                execute();
             }
         };
     }
 
 
-    private void onClickie() {
-        a();
+    private void execute() {
+        mKatExecutorFunc.execute(new NewTask(), createListener(), (Void[]) null);
     }
 
     private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
-        private Long ret = 1l;
-
-
         @Override
         protected Long doInBackground(Void... params) {
             KhandroidLog.d("taskaaaa");
@@ -96,7 +93,7 @@ public class Act_ActivityDemo extends HostActivity {
     }
 
 
-    private void a() {
+    private TaskExecutorListener<Void, Long> createListener() {
         TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
             @Override
             public void onTaskCompleted(Long result) {
@@ -134,7 +131,7 @@ public class Act_ActivityDemo extends HostActivity {
             }
         };
 
-        mKatExecutorFunc.execute(new NewTask(), listener, (Void[]) null);
+        return listener;
     }
 
 }
