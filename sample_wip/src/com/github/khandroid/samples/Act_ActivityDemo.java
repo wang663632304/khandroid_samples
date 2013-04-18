@@ -26,9 +26,9 @@ import com.github.khandroid.misc.KhandroidLog;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
-public class Act_ActivityDemo extends HostActivity {
+public class Act_ActivityDemo extends HostActivity implements ActivityKat3ExecutorFunctionality.HostingAble<Integer, Long>{
     private DefaultActivityRestFunctionality mRestFunc;
-    private ActivityKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
+    private ActivityKat3ExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
 
 
     @Override
@@ -40,7 +40,7 @@ public class Act_ActivityDemo extends HostActivity {
 
         mRestFunc = new DefaultActivityRestFunctionality(this);
 
-        mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Void, Long>(this);
+        mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Integer, Long>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
         initView();
@@ -75,15 +75,19 @@ public class Act_ActivityDemo extends HostActivity {
 
 
     private void execute() {
-        mKatExecutorFunc.execute(new NewTask(), createListener(), (Void[]) null);
+        mKatExecutorFunc.execute(new NewTask(), (Void[]) null);
     }
+    
 
-    private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
+    private class NewTask extends KhandroidAsyncTask3<Void, Integer, Long> {
         @Override
         protected Long doInBackground(Void... params) {
             KhandroidLog.d("taskaaaa");
             try {
-                Thread.sleep(4000);
+                for (int i = 0; i < 50; i++) {
+                    Thread.sleep(100);
+                    publishProgress(i);
+                }
             } catch (InterruptedException e) {
                 // it is ok to get interrupted
             }
@@ -93,8 +97,8 @@ public class Act_ActivityDemo extends HostActivity {
     }
 
 
-    private TaskExecutorListener<Void, Long> createListener() {
-        TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
+    private TaskExecutorListener<Integer, Long> createListener() {
+        TaskExecutorListener<Integer, Long> listener = new TaskExecutorListener<Integer, Long>() {
             @Override
             public void onTaskCompleted(Long result) {
                 KhandroidLog.d("onTaskCompleted " + result);
@@ -102,7 +106,7 @@ public class Act_ActivityDemo extends HostActivity {
 
 
             @Override
-            public void onTaskPublishProgress(Void... progress) {
+            public void onTaskPublishProgress(Integer... progress) {
                 KhandroidLog.d("onTaskPublishProgress");
             }
 
@@ -134,4 +138,9 @@ public class Act_ActivityDemo extends HostActivity {
         return listener;
     }
 
+
+    @Override
+    public TaskExecutorListener<Integer, Long> getKatExecutorListener() {
+        return createListener();
+    }
 }

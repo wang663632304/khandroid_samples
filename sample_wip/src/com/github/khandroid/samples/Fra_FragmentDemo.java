@@ -27,8 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Fra_FragmentDemo extends HostFragment {
-    private FragmentKat3ExecutorFunctionality<Void, Void, Long> mKatExecutorFunc;
+public class Fra_FragmentDemo extends HostFragment implements FragmentKat3ExecutorFunctionality.HostingAble<Integer, Long> {
+    private FragmentKat3ExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
 
 
     @Override
@@ -42,7 +42,7 @@ public class Fra_FragmentDemo extends HostFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mKatExecutorFunc = new FragmentKat3ExecutorFunctionality<Void, Void, Long>(this);
+        mKatExecutorFunc = new FragmentKat3ExecutorFunctionality<Void, Integer, Long>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
 
@@ -56,12 +56,15 @@ public class Fra_FragmentDemo extends HostFragment {
         initButton(view, R.id.btn_make_request, createBtnClickListener());
     }
 
-    private class NewTask extends KhandroidAsyncTask3<Void, Void, Long> {
+    private class NewTask extends KhandroidAsyncTask3<Void, Integer, Long> {
         @Override
         protected Long doInBackground(Void... params) {
             KhandroidLog.d("taskaaaa");
             try {
-                Thread.sleep(4000);
+                for (int i = 0; i < 50; i++) {
+                    Thread.sleep(100);
+                    publishProgress(i);
+                }
             } catch (InterruptedException e) {
                 // it is ok to get interrupted
             }
@@ -71,8 +74,8 @@ public class Fra_FragmentDemo extends HostFragment {
     }
 
 
-    private TaskExecutorListener<Void, Long> createListener() {
-        TaskExecutorListener<Void, Long> listener = new TaskExecutorListener<Void, Long>() {
+    private TaskExecutorListener<Integer, Long> createListener() {
+        TaskExecutorListener<Integer, Long> listener = new TaskExecutorListener<Integer, Long>() {
             @Override
             public void onTaskCompleted(Long result) {
                 KhandroidLog.d("onTaskCompleted " + result);
@@ -80,8 +83,8 @@ public class Fra_FragmentDemo extends HostFragment {
 
 
             @Override
-            public void onTaskPublishProgress(Void... progress) {
-                KhandroidLog.d("onTaskPublishProgress");
+            public void onTaskPublishProgress(Integer... progress) {
+                KhandroidLog.d("onTaskPublishProgress " + progress[0]);
             }
 
 
@@ -124,6 +127,12 @@ public class Fra_FragmentDemo extends HostFragment {
 
 
     private void execute() {
-        mKatExecutorFunc.execute(new NewTask(), createListener(), (Void[]) null);
+        mKatExecutorFunc.execute(new NewTask(), (Void[]) null);
+    }
+
+
+    @Override
+    public TaskExecutorListener<Integer, Long> getKatExecutorListener() {
+        return createListener();
     }
 }
