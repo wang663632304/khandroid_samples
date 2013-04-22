@@ -98,18 +98,6 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKat3Execut
             public void onContinueWithTask() {
                 KhandroidLog.d("onContinueWithTask");
             }
-
-
-            @Override
-            public void onTaskHasBeenCompleted(Long result) {
-                KhandroidLog.d("onTaskHasBeenCompleted " + result);
-            }
-
-
-            @Override
-            public void onTaskHasBeenCancelled() {
-                KhandroidLog.d("onTaskHasBeenCancelled");
-            }
         };
 
         return listener;

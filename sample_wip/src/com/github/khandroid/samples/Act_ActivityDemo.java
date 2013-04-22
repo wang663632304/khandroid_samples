@@ -121,18 +121,6 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKat3Execut
             public void onContinueWithTask() {
                 KhandroidLog.d("onContinueWithTask");
             }
-
-
-            @Override
-            public void onTaskHasBeenCompleted(Long result) {
-                KhandroidLog.d("onTaskHasBeenCompleted " + result);
-            }
-
-
-            @Override
-            public void onTaskHasBeenCancelled() {
-                KhandroidLog.d("onTaskHasBeenCancelled");
-            }
         };
 
         return listener;
