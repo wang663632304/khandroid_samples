@@ -19,16 +19,16 @@ import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
-import com.github.khandroid.kat.ActivityKat3ExecutorFunctionality;
-import com.github.khandroid.kat.Kat3Executor.TaskExecutorListener;
-import com.github.khandroid.kat.KhandroidAsyncTask3;
+import com.github.khandroid.kat.ActivityKatExecutorFunctionality;
+import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
+import com.github.khandroid.kat.KhandroidAsyncTask;
 import com.github.khandroid.misc.KhandroidLog;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
-public class Act_ActivityDemo extends HostActivity implements ActivityKat3ExecutorFunctionality.HostingAble<Integer, Long>{
+public class Act_ActivityDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Integer, Long>{
     private DefaultActivityRestFunctionality mRestFunc;
-    private ActivityKat3ExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
+    private ActivityKatExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
 
 
     @Override
@@ -40,7 +40,7 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKat3Execut
 
         mRestFunc = new DefaultActivityRestFunctionality(this);
 
-        mKatExecutorFunc = new ActivityKat3ExecutorFunctionality<Void, Integer, Long>(this);
+        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Integer, Long>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
         initView();
@@ -51,7 +51,6 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKat3Execut
 
 
     @Override
-    @Deprecated
     public Object onRetainNonConfigurationInstance() {
         return mKatExecutorFunc.onRetainNonConfigurationInstance();
     }
@@ -68,34 +67,11 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKat3Execut
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                execute();
+                mKatExecutorFunc.execute(new MyRestTask(), (Void[]) null);
             }
         };
     }
-
-
-    private void execute() {
-        mKatExecutorFunc.execute(new NewTask(), (Void[]) null);
-    }
     
-
-    private class NewTask extends KhandroidAsyncTask3<Void, Integer, Long> {
-        @Override
-        protected Long doInBackground(Void... params) {
-            KhandroidLog.d("taskaaaa");
-            try {
-                for (int i = 0; i < 50; i++) {
-                    Thread.sleep(100);
-                    publishProgress(i);
-                }
-            } catch (InterruptedException e) {
-                // it is ok to get interrupted
-            }
-
-            return 1l;
-        }
-    }
-
 
     private TaskExecutorListener<Integer, Long> createListener() {
         TaskExecutorListener<Integer, Long> listener = new TaskExecutorListener<Integer, Long>() {

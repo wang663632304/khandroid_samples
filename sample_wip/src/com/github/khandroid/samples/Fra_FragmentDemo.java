@@ -16,9 +16,9 @@ package com.github.khandroid.samples;
 import static com.github.khandroid.misc.ActivityUtils.initButton;
 
 import com.github.khandroid.fragment.HostFragment;
-import com.github.khandroid.kat.FragmentKat3ExecutorFunctionality;
-import com.github.khandroid.kat.KhandroidAsyncTask3;
-import com.github.khandroid.kat.Kat3Executor.TaskExecutorListener;
+import com.github.khandroid.kat.FragmentKatExecutorFunctionality;
+import com.github.khandroid.kat.KhandroidAsyncTask;
+import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
 import com.github.khandroid.misc.KhandroidLog;
 
 import android.os.Bundle;
@@ -27,8 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Fra_FragmentDemo extends HostFragment implements FragmentKat3ExecutorFunctionality.HostingAble<Integer, Long> {
-    private FragmentKat3ExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
+public class Fra_FragmentDemo extends HostFragment implements FragmentKatExecutorFunctionality.HostingAble<Integer, Long> {
+    private FragmentKatExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
 
 
     @Override
@@ -42,7 +42,7 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKat3Execut
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mKatExecutorFunc = new FragmentKat3ExecutorFunctionality<Void, Integer, Long>(this);
+        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Integer, Long>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
 
@@ -56,7 +56,7 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKat3Execut
         initButton(view, R.id.btn_make_request, createBtnClickListener());
     }
 
-    private class NewTask extends KhandroidAsyncTask3<Void, Integer, Long> {
+    private class NewTask extends KhandroidAsyncTask<Void, Integer, Long> {
         @Override
         protected Long doInBackground(Void... params) {
             KhandroidLog.d("taskaaaa");
