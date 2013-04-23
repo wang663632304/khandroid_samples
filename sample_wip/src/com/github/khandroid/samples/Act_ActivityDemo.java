@@ -18,16 +18,16 @@ import android.os.StrictMode;
 import android.view.View;
 
 import com.github.khandroid.activity.HostActivity;
+import com.github.khandroid.activity.functionalities.defaults.DefaultActivityHttpFunctionality;
 import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
 import com.github.khandroid.kat.ActivityKatExecutorFunctionality;
 import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
-import com.github.khandroid.kat.KhandroidAsyncTask;
 import com.github.khandroid.misc.KhandroidLog;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
 public class Act_ActivityDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Integer, Long>{
-    private DefaultActivityRestFunctionality mRestFunc;
+    private DefaultActivityHttpFunctionality mHttpFunc;
     private ActivityKatExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
 
 
@@ -38,7 +38,8 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKatExecuto
 
         KhandroidLog.initLogTag("KhandroidSample");
 
-        mRestFunc = new DefaultActivityRestFunctionality(this);
+        mHttpFunc = new DefaultActivityHttpFunctionality(this);
+        mHttpFunc.onCreate(savedInstanceState);
 
         mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Integer, Long>(this);
         attach(mKatExecutorFunc);
@@ -67,7 +68,7 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKatExecuto
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mKatExecutorFunc.execute(new MyRestTask(), (Void[]) null);
+                mKatExecutorFunc.execute(new MyRestTask(mHttpFunc), (Void[]) null);
             }
         };
     }
