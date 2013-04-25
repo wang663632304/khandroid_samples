@@ -15,7 +15,7 @@ package com.github.khandroid.samples;
 
 import static com.github.khandroid.misc.ActivityUtils.initButton;
 
-import com.github.khandroid.fragment.HostFragment;
+import com.github.khandroid.core.HostFragment;
 import com.github.khandroid.kat.FragmentKatExecutorFunctionality;
 import com.github.khandroid.kat.KhandroidAsyncTask;
 import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;

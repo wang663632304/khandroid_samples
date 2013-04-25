@@ -5,4 +5,6 @@
     <string name="act__main__btn_activity">Activity</string>
     <string name="act__main__btn_fragment">Fragment</string>
     <string name="act__main__btn_make_request">Make HTTP request</string>
+    
+    <string name="act__acitivity_demos__btn_simple_http">Simple HTTP request</string>
 </resources>

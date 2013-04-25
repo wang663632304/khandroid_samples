@@ -11,24 +11,28 @@
  * limitations under the License.
  */
 
-package com.github.khandroid.samples;
+package com.github.khandroid.samples.networking;
 
+import khandroid.ext.apache.http.impl.client.DefaultHttpClient;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 
-import com.github.khandroid.activity.HostActivity;
-import com.github.khandroid.activity.functionalities.defaults.DefaultActivityHttpFunctionality;
-import com.github.khandroid.activity.functionalities.defaults.DefaultActivityRestFunctionality;
+import com.github.khandroid.core.HostActivity;
+import com.github.khandroid.http.ActivityHttpFunctionality;
 import com.github.khandroid.kat.ActivityKatExecutorFunctionality;
 import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
 import com.github.khandroid.misc.KhandroidLog;
+import com.github.khandroid.samples.R;
+import com.github.khandroid.samples.R.id;
+import com.github.khandroid.samples.R.layout;
+
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
-public class Act_ActivityDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Integer, Long>{
-    private DefaultActivityHttpFunctionality mHttpFunc;
-    private ActivityKatExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
+public class Act_ActivitySimpleHttpDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Void, String>{
+    private ActivityHttpFunctionality mHttpFunc;
+    private ActivityKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
 
 
     @Override
@@ -36,12 +40,13 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKatExecuto
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__activity_demo);
 
+        KhandroidLog.enableLogging();
         KhandroidLog.initLogTag("KhandroidSample");
 
-        mHttpFunc = new DefaultActivityHttpFunctionality(this);
+        mHttpFunc = new ActivityHttpFunctionality(this, new DefaultHttpClient());
         mHttpFunc.onCreate(savedInstanceState);
 
-        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Integer, Long>(this);
+        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, String>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
         initView();
@@ -68,22 +73,22 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKatExecuto
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mKatExecutorFunc.execute(new MyRestTask(mHttpFunc), (Void[]) null);
+                mKatExecutorFunc.execute(new MyHttpTask(mHttpFunc), (Void[]) null);
             }
         };
     }
     
 
-    private TaskExecutorListener<Integer, Long> createListener() {
-        TaskExecutorListener<Integer, Long> listener = new TaskExecutorListener<Integer, Long>() {
+    private TaskExecutorListener<Void, String> createListener() {
+        TaskExecutorListener<Void, String> listener = new TaskExecutorListener<Void, String>() {
             @Override
-            public void onTaskCompleted(Long result) {
+            public void onTaskCompleted(String result) {
                 KhandroidLog.d("onTaskCompleted " + result);
             }
 
 
             @Override
-            public void onTaskPublishProgress(Integer... progress) {
+            public void onTaskPublishProgress(Void... progress) {
                 KhandroidLog.d("onTaskPublishProgress");
             }
 
@@ -105,7 +110,7 @@ public class Act_ActivityDemo extends HostActivity implements ActivityKatExecuto
 
 
     @Override
-    public TaskExecutorListener<Integer, Long> getKatExecutorListener() {
+    public TaskExecutorListener<Void, String> getKatExecutorListener() {
         return createListener();
     }
 }

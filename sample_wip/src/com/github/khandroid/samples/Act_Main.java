@@ -44,7 +44,7 @@ public class Act_Main extends Activity {
         mBtnActivity.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Act_Main.this, Act_ActivityDemo.class);
+                Intent intent = new Intent(Act_Main.this, Act_ActivityDemos.class);
                 startActivity(intent);
             }
         });
