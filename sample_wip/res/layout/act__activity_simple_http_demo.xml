@@ -7,7 +7,7 @@
 	<Button
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-    	android:id="@+id/btn_make_request"
-    	android:text="@string/act__main__btn_make_request"
+    	android:id="@+id/btn_execute_request"
+    	android:text="@string/btn_execute_request"
 	/>
 </LinearLayout>

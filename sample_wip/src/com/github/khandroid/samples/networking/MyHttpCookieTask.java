@@ -21,15 +21,15 @@ import java.io.IOException;
 import khandroid.ext.apache.http.client.ClientProtocolException;
 import khandroid.ext.apache.http.client.methods.HttpUriRequest;
 
-import com.github.khandroid.functionality.HttpFunctionality;
+import com.github.khandroid.functionality.HttpFunctionalityWCookies;
 import com.github.khandroid.http.request.GetRequestBuilder;
 import com.github.khandroid.kat.KhandroidAsyncTask;
 
 
-public class MyHttpTask extends KhandroidAsyncTask<Void, Void, String> {
-    private HttpFunctionality mHttpFunc;
+public class MyHttpCookieTask extends KhandroidAsyncTask<Void, Void, String> {
+    private HttpFunctionalityWCookies mHttpFunc;
 
-    public MyHttpTask(HttpFunctionality httpFunc) {
+    public MyHttpCookieTask(HttpFunctionalityWCookies httpFunc) {
         if (httpFunc != null) {
             mHttpFunc = httpFunc;
         } else {
@@ -42,10 +42,11 @@ public class MyHttpTask extends KhandroidAsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         String ret = null;
 
-        HttpUriRequest req = new GetRequestBuilder("http://khs.bolyartech.com/").build();
+        HttpUriRequest req = new GetRequestBuilder("http://khs.bolyartech.com/http_cookie.php").build();
 
         try {
-            ret = mHttpFunc.execute(req);
+            mHttpFunc.execute(req);
+            ret = mHttpFunc.getCookieValue("my_cookie");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

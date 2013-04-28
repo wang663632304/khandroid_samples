@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.khandroid.samples;
+package com.github.khandroid.samples.networking;
 
+import com.github.khandroid.samples.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-
-public class Act_FragmentDemo extends FragmentActivity {
+public class Act_FragmentCookieHttpDemo extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act__fragent_demo);
+        setContentView(R.layout.act__fragment_cookie_http_demo);
     }
 }

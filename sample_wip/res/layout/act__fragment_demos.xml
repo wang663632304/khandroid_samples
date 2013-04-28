@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
         <Button
             android:id="@+id/btn_http_simple"
             android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:id="@+id/btn_http_cookie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/demos__btn_cookie_http" />        
+            android:text="@string/demos__btn_cookie_http" />  
     </LinearLayout>
 
 </ScrollView>

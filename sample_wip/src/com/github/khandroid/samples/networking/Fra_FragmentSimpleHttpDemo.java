@@ -11,30 +11,33 @@
  * limitations under the License.
  */
 
-package com.github.khandroid.samples;
+package com.github.khandroid.samples.networking;
 
 import static com.github.khandroid.misc.ActivityUtils.initButton;
+import khandroid.ext.apache.http.impl.client.DefaultHttpClient;
 
 import com.github.khandroid.core.HostFragment;
+import com.github.khandroid.http.FragmentHttpFunctionality;
 import com.github.khandroid.kat.FragmentKatExecutorFunctionality;
-import com.github.khandroid.kat.KhandroidAsyncTask;
 import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
+import com.github.khandroid.misc.ActivityUtils;
 import com.github.khandroid.misc.KhandroidLog;
-
+import com.github.khandroid.samples.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Fra_FragmentDemo extends HostFragment implements FragmentKatExecutorFunctionality.HostingAble<Integer, Long> {
-    private FragmentKatExecutorFunctionality<Void, Integer, Long> mKatExecutorFunc;
+public class Fra_FragmentSimpleHttpDemo extends HostFragment implements
+        FragmentKatExecutorFunctionality.HostingAble<Void, String> {
+    private FragmentHttpFunctionality mHttpFunc;
+    private FragmentKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        KhandroidLog.initLogTag("KhandroidSample");
-        return inflater.inflate(R.layout.fra__fragment_demo, container, false);
+        return inflater.inflate(R.layout.fra__fragment_simple_http_demo, container, false);
     }
 
 
@@ -42,7 +45,10 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKatExecuto
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Integer, Long>(this);
+        mHttpFunc = new FragmentHttpFunctionality(this, new DefaultHttpClient());
+        mHttpFunc.onCreate(savedInstanceState);
+        
+        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this);
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
 
@@ -53,38 +59,36 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKatExecuto
     private void initView() {
         View view = getView();
 
-        initButton(view, R.id.btn_make_request, createBtnClickListener());
-    }
-
-    private class NewTask extends KhandroidAsyncTask<Void, Integer, Long> {
-        @Override
-        protected Long doInBackground(Void... params) {
-            KhandroidLog.d("taskaaaa");
-            try {
-                for (int i = 0; i < 50; i++) {
-                    Thread.sleep(100);
-                    publishProgress(i);
-                }
-            } catch (InterruptedException e) {
-                // it is ok to get interrupted
-            }
-
-            return 1l;
-        }
+        initButton(view, R.id.btn_execute_request, createBtnClickListener());
     }
 
 
-    private TaskExecutorListener<Integer, Long> createListener() {
-        TaskExecutorListener<Integer, Long> listener = new TaskExecutorListener<Integer, Long>() {
+
+    private View.OnClickListener createBtnClickListener() {
+        return new View.OnClickListener() {
             @Override
-            public void onTaskCompleted(Long result) {
+            public void onClick(View v) {
+                if (ActivityUtils.isOnline(getActivity())) {
+                    mKatExecutorFunc.execute(new MyHttpTask(mHttpFunc));
+                } else {
+                    NoInetDialogCreator.show(getActivity());
+                }
+            }
+        };
+    }
+
+
+    private TaskExecutorListener<Void, String> createListener() {
+        TaskExecutorListener<Void, String> listener = new TaskExecutorListener<Void, String>() {
+            @Override
+            public void onTaskCompleted(String result) {
                 KhandroidLog.d("onTaskCompleted " + result);
             }
 
 
             @Override
-            public void onTaskPublishProgress(Integer... progress) {
-                KhandroidLog.d("onTaskPublishProgress " + progress[0]);
+            public void onTaskPublishProgress(Void... progress) {
+                KhandroidLog.d("onTaskPublishProgress");
             }
 
 
@@ -104,23 +108,8 @@ public class Fra_FragmentDemo extends HostFragment implements FragmentKatExecuto
     }
 
 
-    private View.OnClickListener createBtnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                execute();
-            }
-        };
-    }
-
-
-    private void execute() {
-        mKatExecutorFunc.execute(new NewTask(), (Void[]) null);
-    }
-
-
     @Override
-    public TaskExecutorListener<Integer, Long> getKatExecutorListener() {
+    public TaskExecutorListener<Void, String> getKatExecutorListener() {
         return createListener();
     }
 }

@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+    
     <fragment
-        android:name="com.github.khandroid.samples.Fra_FragmentDemo"
+        android:name="com.github.khandroid.samples.networking.Fra_FragmentCookieHttpDemo"
         android:id="@+id/fra__fragment_demo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

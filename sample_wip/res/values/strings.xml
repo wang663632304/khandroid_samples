@@ -2,9 +2,19 @@
 <resources>
 
     <string name="app_name">Khandroid Sample 1</string>
-    <string name="act__main__btn_activity">Activity</string>
-    <string name="act__main__btn_fragment">Fragment</string>
-    <string name="act__main__btn_make_request">Make HTTP request</string>
+    <string name="global_btn_close">Close</string>
+    <string name="global_not_available">n/a</string>
     
-    <string name="act__acitivity_demos__btn_simple_http">Simple HTTP request</string>
+    <string name="dlg__no_inet_msg">No connection to Intenet.</string>
+    
+    <string name="act__main__btn_activity">Activity demos</string>
+    <string name="act__main__btn_fragment">Fragment demos</string>
+    
+    
+    
+    <string name="btn_execute_request">Execute HTTP request</string>
+    <string name="btn_set_cookie">Set cookie and execute</string>
+    <string name="demos__btn_simple_http">Simple HTTP request</string>
+    <string name="demos__btn_cookie_http">HTTP request with cookie(s)</string>
+    <string name="cookie_http_demo__tv_cookie">Cookie value: %s</string>
 </resources>

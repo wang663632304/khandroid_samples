@@ -14,53 +14,41 @@
  * limitations under the License.
  */
 
-
 package com.github.khandroid.samples;
 
+import com.github.khandroid.misc.ActivityUtils;
+import com.github.khandroid.samples.R;
+import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
+import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
+import com.github.khandroid.samples.networking.Act_FragmentCookieHttpDemo;
+import com.github.khandroid.samples.networking.Act_FragmentSimpleHttpDemo;
 
-
-import com.github.khandroid.misc.KhandroidLog;
-
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 
-public class Act_Main extends Activity {
-    private Button mBtnActivity;
-    private Button mBtnFragment;
-                                                                                                       
+public class Act_FragmentDemos extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act__main);
+        setContentView(R.layout.act__fragment_demos);
         
-        KhandroidLog.enableLogging();
-        KhandroidLog.initLogTag("KhandroidSample");
-        
-        initView();
-    }
-    
-    
-    private void initView() {
-        mBtnActivity = (Button) findViewById(R.id.btn_activity);
-        mBtnActivity.setOnClickListener(new OnClickListener() {
+        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+        ActivityUtils.initButton(view, R.id.btn_http_simple, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Act_Main.this, Act_ActivityDemos.class);
+                Intent intent = new Intent(Act_FragmentDemos.this, Act_FragmentSimpleHttpDemo.class);
                 startActivity(intent);
             }
         });
         
-        
-        mBtnFragment = (Button) findViewById(R.id.btn_fragment);
-        mBtnFragment.setOnClickListener(new OnClickListener() {
+        ActivityUtils.initButton(view, R.id.btn_http_cookie, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Act_Main.this, Act_FragmentDemos.class);
+                Intent intent = new Intent(Act_FragmentDemos.this, Act_FragmentCookieHttpDemo.class);
                 startActivity(intent);
             }
         });
