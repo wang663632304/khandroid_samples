@@ -36,8 +36,7 @@ import com.github.khandroid.misc.KhandroidLog;
 import com.github.khandroid.samples.R;
 
 
-public class Fra_FragmentCookieHttpDemo extends HostFragment implements
-        FragmentKatExecutorFunctionality.HostingAble<Void, String> {
+public class Fra_FragmentCookieHttpDemo extends HostFragment {
 
     private FragmentHttpWCookiesFunctionality mHttpFunc;
     private FragmentKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
@@ -59,7 +58,7 @@ public class Fra_FragmentCookieHttpDemo extends HostFragment implements
         mHttpFunc = new FragmentHttpWCookiesFunctionality(this, new DefaultHttpClient());
         mHttpFunc.onCreate(savedInstanceState);
 
-        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this);
+        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
 
@@ -110,7 +109,7 @@ public class Fra_FragmentCookieHttpDemo extends HostFragment implements
     }
 
 
-    private TaskExecutorListener<Void, String> createListener() {
+    private TaskExecutorListener<Void, String> createTaskListener() {
         TaskExecutorListener<Void, String> listener = new TaskExecutorListener<Void, String>() {
             @Override
             public void onTaskCompleted(String result) {
@@ -138,11 +137,5 @@ public class Fra_FragmentCookieHttpDemo extends HostFragment implements
         };
 
         return listener;
-    }
-
-
-    @Override
-    public TaskExecutorListener<Void, String> getKatExecutorListener() {
-        return createListener();
     }
 }

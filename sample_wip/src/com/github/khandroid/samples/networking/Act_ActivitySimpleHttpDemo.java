@@ -27,7 +27,7 @@ import com.github.khandroid.samples.R;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
-public class Act_ActivitySimpleHttpDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Void, String> {
+public class Act_ActivitySimpleHttpDemo extends HostActivity {
     private ActivityHttpFunctionality mHttpFunc;
     private ActivityKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
 
@@ -40,7 +40,7 @@ public class Act_ActivitySimpleHttpDemo extends HostActivity implements Activity
         mHttpFunc = new ActivityHttpFunctionality(this, new DefaultHttpClient());
         mHttpFunc.onCreate(savedInstanceState);
 
-        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, String>(this);
+        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
         initView();
@@ -74,7 +74,7 @@ public class Act_ActivitySimpleHttpDemo extends HostActivity implements Activity
     }
     
 
-    private TaskExecutorListener<Void, String> createListener() {
+    private TaskExecutorListener<Void, String> createTaskListener() {
         TaskExecutorListener<Void, String> listener = new TaskExecutorListener<Void, String>() {
             @Override
             public void onTaskCompleted(String result) {
@@ -101,11 +101,5 @@ public class Act_ActivitySimpleHttpDemo extends HostActivity implements Activity
         };
 
         return listener;
-    }
-
-
-    @Override
-    public TaskExecutorListener<Void, String> getKatExecutorListener() {
-        return createListener();
     }
 }

@@ -29,8 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Fra_FragmentSimpleHttpDemo extends HostFragment implements
-        FragmentKatExecutorFunctionality.HostingAble<Void, String> {
+public class Fra_FragmentSimpleHttpDemo extends HostFragment {
     private FragmentHttpFunctionality mHttpFunc;
     private FragmentKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
 
@@ -48,7 +47,7 @@ public class Fra_FragmentSimpleHttpDemo extends HostFragment implements
         mHttpFunc = new FragmentHttpFunctionality(this, new DefaultHttpClient());
         mHttpFunc.onCreate(savedInstanceState);
         
-        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this);
+        mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
 
@@ -78,7 +77,7 @@ public class Fra_FragmentSimpleHttpDemo extends HostFragment implements
     }
 
 
-    private TaskExecutorListener<Void, String> createListener() {
+    private TaskExecutorListener<Void, String> createTaskListener() {
         TaskExecutorListener<Void, String> listener = new TaskExecutorListener<Void, String>() {
             @Override
             public void onTaskCompleted(String result) {
@@ -105,11 +104,5 @@ public class Fra_FragmentSimpleHttpDemo extends HostFragment implements
         };
 
         return listener;
-    }
-
-
-    @Override
-    public TaskExecutorListener<Void, String> getKatExecutorListener() {
-        return createListener();
     }
 }
