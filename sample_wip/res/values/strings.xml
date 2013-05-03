@@ -13,8 +13,12 @@
     
     
     <string name="btn_execute_request">Execute HTTP request</string>
+    <string name="btn_execute_rest">Execute REST request</string>
     <string name="btn_set_cookie">Set cookie and execute</string>
     <string name="demos__btn_simple_http">Simple HTTP request</string>
     <string name="demos__btn_cookie_http">HTTP request with cookie(s)</string>
+    <string name="demos__btn_rest_http">HTTP REST request</string>
     <string name="cookie_http_demo__tv_cookie">Cookie value: %s</string>
+    <string name="rest_http_demo__tv_result_string">REST result string value: %s</string>
+    <string name="rest_http_demo__tv_result_int">REST result int value: %s</string>
 </resources>

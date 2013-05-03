@@ -24,6 +24,7 @@ import khandroid.ext.apache.http.client.methods.HttpUriRequest;
 import com.github.khandroid.functionality.HttpFunctionality;
 import com.github.khandroid.http.request.GetRequestBuilder;
 import com.github.khandroid.kat.KhandroidAsyncTask;
+import com.github.khandroid.samples.AppConstants;
 
 
 public class MyHttpTask extends KhandroidAsyncTask<Void, Void, String> {
@@ -42,7 +43,7 @@ public class MyHttpTask extends KhandroidAsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         String ret = null;
 
-        HttpUriRequest req = new GetRequestBuilder("http://khs.bolyartech.com/").build();
+        HttpUriRequest req = new GetRequestBuilder(AppConstants.HOST).build();
 
         try {
             ret = mHttpFunc.execute(req);

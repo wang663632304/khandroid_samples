@@ -27,7 +27,7 @@ import com.github.khandroid.samples.R;
 import static com.github.khandroid.misc.ActivityUtils.*;
 
 
-public class Act_ActivitySimpleHttpDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Void, String>{
+public class Act_ActivitySimpleHttpDemo extends HostActivity implements ActivityKatExecutorFunctionality.HostingAble<Void, String> {
     private ActivityHttpFunctionality mHttpFunc;
     private ActivityKatExecutorFunctionality<Void, Void, String> mKatExecutorFunc;
 

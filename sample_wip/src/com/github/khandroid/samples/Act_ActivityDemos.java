@@ -18,13 +18,13 @@ package com.github.khandroid.samples;
 
 import com.github.khandroid.misc.ActivityUtils;
 import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
+import com.github.khandroid.samples.networking.Act_ActivityRestDemo;
 import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 
 public class Act_ActivityDemos extends Activity {
@@ -48,6 +48,14 @@ public class Act_ActivityDemos extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Act_ActivityDemos.this, Act_ActivityCookieHttpDemo.class);
+                startActivity(intent);
+            }
+        });
+        
+        ActivityUtils.initButton(view, R.id.btn_http_rest, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_ActivityDemos.this, Act_ActivityRestDemo.class);
                 startActivity(intent);
             }
         });
