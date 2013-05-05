@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_execute_request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_set_session_var" />
+
+    <Button
+        android:id="@+id/btn_start_act"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/demos__btn_start_second_act" />
+
+    <TextView
+        android:id="@+id/tv_session_var_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/demos__session_var_value" />
+</LinearLayout>
