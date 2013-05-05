@@ -47,7 +47,7 @@ public class Act_ActivityCookieHttpDemo extends HostActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__activity_cookie_http_demo);
         
-        mHttpFunc = new ActivityHttpWCookiesFunctionality(this, new DefaultHttpClient());
+        mHttpFunc = new ActivityHttpWCookiesFunctionality(this, MyHttpClientSingleton.getInstance());
         mHttpFunc.onCreate(savedInstanceState);
         
         mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
@@ -94,7 +94,7 @@ public class Act_ActivityCookieHttpDemo extends HostActivity {
                 BasicClientCookie c = (BasicClientCookie) mHttpFunc.getCookie("my_cookie");
                 c.setValue("41");
                 mHttpFunc.setCookie(c);
-                mKatExecutorFunc.execute(new MyHttpCookieTask(mHttpFunc), (Void[]) null);
+                mKatExecutorFunc.execute(new MyHttpCookieTask(mHttpFunc));
             }
         };
     }
@@ -128,5 +128,11 @@ public class Act_ActivityCookieHttpDemo extends HostActivity {
         };
 
         return listener;
+    }
+    
+    
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        return mKatExecutorFunc.onRetainNonConfigurationInstance();
     }
 }

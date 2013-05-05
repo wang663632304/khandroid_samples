@@ -37,7 +37,7 @@ public class Act_ActivitySimpleHttpDemo extends HostActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__activity_simple_http_demo);
 
-        mHttpFunc = new ActivityHttpFunctionality(this, new DefaultHttpClient());
+        mHttpFunc = new ActivityHttpFunctionality(this, MyHttpClientSingleton.getInstance());
         mHttpFunc.onCreate(savedInstanceState);
 
         mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
@@ -65,7 +65,7 @@ public class Act_ActivitySimpleHttpDemo extends HostActivity {
             @Override
             public void onClick(View v) {
                 if (ActivityUtils.isOnline(Act_ActivitySimpleHttpDemo.this)) {
-                    mKatExecutorFunc.execute(new MyHttpTask(mHttpFunc), (Void[]) null);
+                    mKatExecutorFunc.execute(new MyHttpTask(mHttpFunc));
                 } else {
                     NoInetDialogCreator.show(Act_ActivitySimpleHttpDemo.this);
                 }

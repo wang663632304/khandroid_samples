@@ -44,7 +44,7 @@ public class Fra_FragmentSimpleHttpDemo extends HostFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mHttpFunc = new FragmentHttpFunctionality(this, new DefaultHttpClient());
+        mHttpFunc = new FragmentHttpFunctionality(this, MyHttpClientSingleton.getInstance());
         mHttpFunc.onCreate(savedInstanceState);
         
         mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());

@@ -21,7 +21,23 @@
             android:id="@+id/btn_http_rest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/demos__btn_rest_http" />         
+            android:text="@string/demos__btn_rest_http" />
+        <Button
+            android:id="@+id/btn_http_session"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/demos__btn_session_http" />         
+        <Button
+            android:id="@+id/btn_wait_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/demos__btn_wait_indicator" />         
+        <Button
+            android:id="@+id/btn_progress_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/demos__btn_progress_indicator" />         
+        
     </LinearLayout>
 
 </ScrollView>

@@ -55,7 +55,7 @@ public class Fra_FragmentCookieHttpDemo extends HostFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mHttpFunc = new FragmentHttpWCookiesFunctionality(this, new DefaultHttpClient());
+        mHttpFunc = new FragmentHttpWCookiesFunctionality(this, MyHttpClientSingleton.getInstance());
         mHttpFunc.onCreate(savedInstanceState);
 
         mKatExecutorFunc = new FragmentKatExecutorFunctionality<Void, Void, String>(this, createTaskListener());
@@ -103,7 +103,7 @@ public class Fra_FragmentCookieHttpDemo extends HostFragment {
                 BasicClientCookie c = (BasicClientCookie) mHttpFunc.getCookie("my_cookie");
                 c.setValue("41");
                 mHttpFunc.setCookie(c);
-                mKatExecutorFunc.execute(new MyHttpCookieTask(mHttpFunc), (Void[]) null);
+                mKatExecutorFunc.execute(new MyHttpCookieTask(mHttpFunc));
             }
         };
     }

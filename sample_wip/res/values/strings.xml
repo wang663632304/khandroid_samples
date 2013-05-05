@@ -21,4 +21,13 @@
     <string name="cookie_http_demo__tv_cookie">Cookie value: %s</string>
     <string name="rest_http_demo__tv_result_string">REST result string value: %s</string>
     <string name="rest_http_demo__tv_result_int">REST result int value: %s</string>
+    <string name="demos__btn_set_session_var">Set session variable</string>
+    <string name="demos__btn_start_second_act">Start second activity</string>
+    <string name="demos__session_var_value">Session variable value: %s</string>
+    <string name="demos__btn_session_http">Session</string>
+    <string name="btn_set_session_var">Set session var</string>
+    <string name="btn_get_session_var">Get session var</string>
+    <string name="btn_start">Start task</string>
+    <string name="demos__btn_wait_indicator">Task with wait indicator</string>
+    <string name="demos__btn_progress_indicator">Task with progress indicator</string>
 </resources>

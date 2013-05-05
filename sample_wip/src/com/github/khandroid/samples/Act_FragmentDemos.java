@@ -18,6 +18,7 @@ package com.github.khandroid.samples;
 
 import com.github.khandroid.misc.ActivityUtils;
 import com.github.khandroid.samples.R;
+import com.github.khandroid.samples.misc.Act_FragmentProgressIndicator;
 import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
 import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
 import com.github.khandroid.samples.networking.Act_FragmentCookieHttpDemo;
@@ -49,6 +50,14 @@ public class Act_FragmentDemos extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Act_FragmentDemos.this, Act_FragmentCookieHttpDemo.class);
+                startActivity(intent);
+            }
+        });
+        
+        ActivityUtils.initButton(view, R.id.btn_task_progress, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_FragmentDemos.this, Act_FragmentProgressIndicator.class);
                 startActivity(intent);
             }
         });

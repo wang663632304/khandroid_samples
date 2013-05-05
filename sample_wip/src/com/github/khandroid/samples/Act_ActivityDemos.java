@@ -17,9 +17,12 @@
 package com.github.khandroid.samples;
 
 import com.github.khandroid.misc.ActivityUtils;
+import com.github.khandroid.samples.misc.Act_ProgressIndicator;
+import com.github.khandroid.samples.misc.Act_WaitIndicator;
 import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
 import com.github.khandroid.samples.networking.Act_ActivityRestDemo;
 import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
+import com.github.khandroid.samples.networking.Act_SessionDemo1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -56,6 +59,27 @@ public class Act_ActivityDemos extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Act_ActivityDemos.this, Act_ActivityRestDemo.class);
+                startActivity(intent);
+            }
+        });
+        ActivityUtils.initButton(view, R.id.btn_http_session, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_ActivityDemos.this, Act_SessionDemo1.class);
+                startActivity(intent);
+            }
+        });
+        ActivityUtils.initButton(view, R.id.btn_wait_indicator, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_ActivityDemos.this, Act_WaitIndicator.class);
+                startActivity(intent);
+            }
+        });
+        ActivityUtils.initButton(view, R.id.btn_progress_indicator, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_ActivityDemos.this, Act_ProgressIndicator.class);
                 startActivity(intent);
             }
         });
