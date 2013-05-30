@@ -12,7 +12,6 @@
 
 package com.github.khandroid.samples.networking;
 
-import khandroid.ext.apache.http.impl.client.DefaultHttpClient;
 import android.os.Bundle;
 import android.view.View;
 

@@ -18,7 +18,6 @@ package com.github.khandroid.samples.networking;
 
 import static com.github.khandroid.misc.ActivityUtils.initButton;
 import static com.github.khandroid.misc.ActivityUtils.findTextView;
-import khandroid.ext.apache.http.impl.client.DefaultHttpClient;
 import khandroid.ext.apache.http.impl.cookie.BasicClientCookie;
 
 import com.github.khandroid.core.HostActivity;

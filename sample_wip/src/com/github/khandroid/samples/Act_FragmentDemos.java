@@ -19,8 +19,6 @@ package com.github.khandroid.samples;
 import com.github.khandroid.misc.ActivityUtils;
 import com.github.khandroid.samples.R;
 import com.github.khandroid.samples.misc.Act_FragmentProgressIndicator;
-import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
-import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
 import com.github.khandroid.samples.networking.Act_FragmentCookieHttpDemo;
 import com.github.khandroid.samples.networking.Act_FragmentSimpleHttpDemo;
 
@@ -28,7 +26,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 
 public class Act_FragmentDemos extends Activity {

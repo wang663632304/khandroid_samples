@@ -14,8 +14,6 @@
 package com.github.khandroid.samples.networking;
 
 import static com.github.khandroid.misc.ActivityUtils.initButton;
-import khandroid.ext.apache.http.impl.client.DefaultHttpClient;
-
 import com.github.khandroid.core.HostFragment;
 import com.github.khandroid.http.FragmentHttpFunctionality;
 import com.github.khandroid.kat.FragmentKatExecutorFunctionality;
