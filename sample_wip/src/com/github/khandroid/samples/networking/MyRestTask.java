@@ -97,7 +97,7 @@ public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
 
         @Override
         public HttpUriRequest createHttpRequest() {
-            com.github.khandroid.http.request.GetRequestBuilder b = new GetRequestBuilder(AppConstants.HOST
+            GetRequestBuilder b = new GetRequestBuilder(AppConstants.HOST
                     + AppConstants.PAGE_REST_REQUEST);
             b.addParameter(PARAM_INPUT, Integer.toString(123));
 
