@@ -32,38 +32,19 @@ import com.github.khandroid.samples.AppConstants;
 
 
 public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
-    private ActivityRestFunctionality mRestFunc;
-
-
+    
     public MyRestTask(ActivityRestFunctionality restFunc) {
-        if (restFunc != null) {
-            mRestFunc = restFunc;
-        } else {
-            throw new IllegalStateException("Parameter restFunc is null");
-        }
+        super(restFunc);
     }
-
-
+    
+    
     @Override
-    protected ResultWrapper<MyRestResult> doInBackground(Void... params) {
-        ResultWrapper<MyRestResult> ret;
-
-        MyRestExchange x = new MyRestExchange();
-        try {
-            mRestFunc.execute(x);
-            if (x.isOk()) {
-                ret = new ResultWrapper<MyRestResult>(ResultWrapper.STATUS_OK, x.getResult());
-            } else {
-                ret = new ResultWrapper<MyRestResult>(ResultWrapper.STATUS_SOFT_ERROR, null);
-            }
-        } catch (RestExchangeFailedException e) {
-            ret = new ResultWrapper<MyRestResult>(ResultWrapper.STATUS_HARD_ERROR, null);
-        }
-
-        return ret;
+    protected RestExchange<MyRestResult> createRestExchange() {
+        return new MyRestExchange();
     }
 
-    public class MyRestExchange extends RestExchange<MyRestResult> {
+
+    private class MyRestExchange extends RestExchange<MyRestResult> {
         public static final String RESP_STRING_VALUE = "some_string_val";
         public static final String RESP_INT_VALUE = "some_int_val";
 
@@ -80,8 +61,8 @@ public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
 
             try {
                 JSONObject respJson = new JSONObject(source);
-                ret = new MyRestResult(respJson.getString("some_string_val"),
-                                     respJson.getInt("some_int_val"));
+                ret = new MyRestResult(respJson.getString(RESP_STRING_VALUE),
+                                       respJson.getInt(RESP_INT_VALUE));
             } catch (JSONException e) {
                 throw new MalformedResponseException("Cannot extract data.", e);
             }
@@ -91,7 +72,8 @@ public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
 
     }
 
-    public class MyRestRequest extends RestRequest {
+    
+    private class MyRestRequest extends RestRequest {
         public static final String PARAM_INPUT = "input";
 
 
