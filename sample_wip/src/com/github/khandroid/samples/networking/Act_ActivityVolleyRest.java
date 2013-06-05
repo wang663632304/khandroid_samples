@@ -92,9 +92,17 @@ public class Act_ActivityVolleyRest extends Activity {
                     b.setRestListener(new VRestRequest.Listener() {
                         @Override
                         public void onSuccess(JSONObject json, int responseCode) {
-                            int i = 1;
-                            i++;
-                            
+                            try {
+                                setTvText(mTvResultString,
+                                          R.string.rest_http_demo__tv_result_string,
+                                          json.getString("some_string_val"));
+            
+                                setTvText(mTvResultInt,
+                                          R.string.rest_http_demo__tv_result_int,
+                                          json.getString("some_int_val"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                         
                         
