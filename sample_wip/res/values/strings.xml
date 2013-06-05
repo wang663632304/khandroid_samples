@@ -30,4 +30,5 @@
     <string name="btn_start">Start task</string>
     <string name="demos__btn_wait_indicator">Task with wait indicator</string>
     <string name="demos__btn_progress_indicator">Task with progress indicator</string>
+    <string name="demos__btn_new_rest">Volley REST</string>
 </resources>

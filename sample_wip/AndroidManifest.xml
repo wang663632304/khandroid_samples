@@ -73,5 +73,9 @@
             android:name="com.github.khandroid.samples.misc.Act_FragmentProgressIndicator"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.github.khandroid.samples.networking.Act_ActivityVolleyRest"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 </manifest>

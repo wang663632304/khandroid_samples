@@ -16,59 +16,42 @@
 
 package com.github.khandroid.samples.networking;
 
+import khandroid.ext.apache.http.client.methods.HttpUriRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import khandroid.ext.apache.http.client.methods.HttpUriRequest;
-
 import com.github.khandroid.http.request.GetRequestBuilder;
-import com.github.khandroid.rest.ActivityRestFunctionality;
 import com.github.khandroid.rest.MalformedResponseException;
-import com.github.khandroid.rest.RestAsyncTask;
 import com.github.khandroid.rest.RestExchange;
 import com.github.khandroid.rest.RestRequest;
 import com.github.khandroid.samples.AppConstants;
 
 
-public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
-    
-    public MyRestTask(ActivityRestFunctionality restFunc) {
-        super(restFunc);
-    }
-    
-    
+public class MyRestExchange extends RestExchange<MyRestResult> {
+    public static final String RESP_STRING_VALUE = "some_string_val";
+    public static final String RESP_INT_VALUE = "some_int_val";
+
+
     @Override
-    protected RestExchange<MyRestResult> createRestExchange() {
-        return new MyRestExchange();
+    protected RestRequest createRequest() {
+        return new MyRestRequest();
     }
 
 
-    private class MyRestExchange extends RestExchange<MyRestResult> {
-        public static final String RESP_STRING_VALUE = "some_string_val";
-        public static final String RESP_INT_VALUE = "some_int_val";
+    @Override
+    protected MyRestResult createResult(String source) throws MalformedResponseException {
+        MyRestResult ret = null;
 
-
-        @Override
-        protected RestRequest createRequest() {
-            return new MyRestRequest();
+        try {
+            JSONObject respJson = new JSONObject(source);
+            ret = new MyRestResult(respJson.getString(RESP_STRING_VALUE),
+                                   respJson.getInt(RESP_INT_VALUE));
+        } catch (JSONException e) {
+            throw new MalformedResponseException("Cannot extract data.", e);
         }
 
-
-        @Override
-        protected MyRestResult createResult(String source) throws MalformedResponseException {
-            MyRestResult ret = null;
-
-            try {
-                JSONObject respJson = new JSONObject(source);
-                ret = new MyRestResult(respJson.getString(RESP_STRING_VALUE),
-                                       respJson.getInt(RESP_INT_VALUE));
-            } catch (JSONException e) {
-                throw new MalformedResponseException("Cannot extract data.", e);
-            }
-
-            return ret;
-        }
-
+        return ret;
     }
 
     
@@ -86,3 +69,6 @@ public class MyRestTask extends RestAsyncTask<Void, Void, MyRestResult> {
         }
     }
 }
+
+
+

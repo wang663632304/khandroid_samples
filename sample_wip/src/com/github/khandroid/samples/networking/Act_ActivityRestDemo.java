@@ -28,13 +28,13 @@ import com.github.khandroid.kat.KatExecutor.TaskExecutorListener;
 import com.github.khandroid.misc.ActivityUtils;
 import com.github.khandroid.misc.KhandroidLog;
 import com.github.khandroid.rest.ActivityRestFunctionality;
-import com.github.khandroid.rest.RestAsyncTask.ResultWrapper;
+import com.github.khandroid.rest.RestResult;
 import com.github.khandroid.samples.R;
 
 
 public class Act_ActivityRestDemo extends HostActivity {
     private ActivityRestFunctionality mRestFunc;
-    private ActivityKatExecutorFunctionality<Void, Void, ResultWrapper<MyRestResult>> mKatExecutorFunc;
+    private ActivityKatExecutorFunctionality<Void, Void, RestResult<MyRestResult>> mKatExecutorFunc;
 
     private TextView mTvResultString;
     private TextView mTvResultInt;
@@ -48,7 +48,7 @@ public class Act_ActivityRestDemo extends HostActivity {
         mRestFunc = new ActivityRestFunctionality(this, new HttpFunctionalityImpl(MyHttpClientSingleton.getInstance()));
         mRestFunc.onCreate(savedInstanceState);
 
-        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, ResultWrapper<MyRestResult>>(this, createListener());
+        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, RestResult<MyRestResult>>(this, createListener());
         attach(mKatExecutorFunc);
         mKatExecutorFunc.onCreate(savedInstanceState);
         initView();
@@ -73,12 +73,12 @@ public class Act_ActivityRestDemo extends HostActivity {
     }
 
 
-    private TaskExecutorListener<Void, ResultWrapper<MyRestResult>> createListener() {
-        TaskExecutorListener<Void, ResultWrapper<MyRestResult>> listener = new TaskExecutorListener<Void, ResultWrapper<MyRestResult>>() {
+    private TaskExecutorListener<Void, RestResult<MyRestResult>> createListener() {
+        TaskExecutorListener<Void, RestResult<MyRestResult>> listener = new TaskExecutorListener<Void, RestResult<MyRestResult>>() {
             @Override
-            public void onTaskCompleted(ResultWrapper<MyRestResult> result) {
+            public void onTaskCompleted(RestResult<MyRestResult> result) {
                 switch(result.getStatus()) {
-                    case ResultWrapper.STATUS_OK:
+                    case RestResult.STATUS_OK:
                         MyRestResult rez = result.getData();
                         setTvText(mTvResultString,
                                   R.string.rest_http_demo__tv_result_string,
@@ -89,9 +89,9 @@ public class Act_ActivityRestDemo extends HostActivity {
                                   Integer.toString(rez.getIntValue()));
                         
                         break;
-                    case ResultWrapper.STATUS_SOFT_ERROR:
+                    case RestResult.STATUS_SOFT_ERROR:
                         break;
-                    case ResultWrapper.STATUS_HARD_ERROR:
+                    case RestResult.STATUS_HARD_ERROR:
                         break;
                 }
                     

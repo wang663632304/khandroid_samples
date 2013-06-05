@@ -22,6 +22,7 @@ import com.github.khandroid.samples.misc.Act_WaitIndicator;
 import com.github.khandroid.samples.networking.Act_ActivityCookieHttpDemo;
 import com.github.khandroid.samples.networking.Act_ActivityRestDemo;
 import com.github.khandroid.samples.networking.Act_ActivitySimpleHttpDemo;
+import com.github.khandroid.samples.networking.Act_ActivityVolleyRest;
 import com.github.khandroid.samples.networking.Act_SessionDemo1;
 
 import android.app.Activity;
@@ -83,5 +84,13 @@ public class Act_ActivityDemos extends Activity {
                 startActivity(intent);
             }
         });
+        
+        ActivityUtils.initButton(view, R.id.btn_new_rest, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Act_ActivityDemos.this, Act_ActivityVolleyRest.class);
+                startActivity(intent);
+            }
+        });        
     }
 }

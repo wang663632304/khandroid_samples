@@ -37,7 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/demos__btn_progress_indicator" />         
-        
+        <Button
+            android:id="@+id/btn_new_rest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/demos__btn_new_rest" />         
     </LinearLayout>
-
 </ScrollView>
