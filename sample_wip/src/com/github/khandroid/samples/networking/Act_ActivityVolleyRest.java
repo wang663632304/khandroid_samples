@@ -21,6 +21,7 @@ import static com.github.khandroid.misc.ActivityUtils.initButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -43,8 +44,7 @@ import com.github.khandroid.volley.PostJsonObjectRequestBuilder;
 import com.github.khandroid.volley.VRestRequest;
 
 
-public class Act_ActivityVolleyRest extends HostActivity {
-    private ActivityRestFunctionality mRestFunc;
+public class Act_ActivityVolleyRest extends Activity {
 
     private TextView mTvResultString;
     private TextView mTvResultInt;
@@ -54,12 +54,7 @@ public class Act_ActivityVolleyRest extends HostActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act__new_rest);
         
-        mRestFunc = new ActivityRestFunctionality(this, new HttpFunctionalityImpl(MyHttpClientSingleton.getInstance()));
-        mRestFunc.onCreate(savedInstanceState);
 
-//        mKatExecutorFunc = new ActivityKatExecutorFunctionality<Void, Void, ResultWrapper<MyRestResult>>(this, createListener());
-//        attach(mKatExecutorFunc);
-//        mKatExecutorFunc.onCreate(savedInstanceState);
         initView(); 
     }
 
@@ -120,44 +115,11 @@ public class Act_ActivityVolleyRest extends HostActivity {
                     b.setParameter("input", "123");
                     RequestQueue q = Volley.newRequestQueue(Act_ActivityVolleyRest.this);
                     q.add(b.build());
-                    
-                    
-                    
-                    
-//                    PostJsonObjectRequestBuilder b = new PostJsonObjectRequestBuilder(AppConstants.HOST
-//                                                                                      + AppConstants.PAGE_REST_REQUEST);
-//                    
-//                    b.addParameter("input", "123");
-//                    b.setSuccessListener(new Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//                            
-//                            try {
-//                                String status = response.getString("status");
-//                                String responseCode = response.getString("response_code");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
-//                    
-//                    b.setErrorListener(new ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            KhandroidLog.e("Request failed");
-//                        }
-//                    });
-//                    
-//                    RequestQueue q = Volley.newRequestQueue(Act_NewRest.this);
-//                    q.add(b.build());
+                   
                 } else {
                     NoInetDialogCreator.show(Act_ActivityVolleyRest.this);
                 }
             }
         };
     }
-    
-    
-    
-    
 }
