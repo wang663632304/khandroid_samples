@@ -40,7 +40,7 @@ public class MyRestExchange extends RestExchange<MyRestResult> {
 
 
     @Override
-    protected MyRestResult createResult(String source) throws MalformedResponseException {
+    protected MyRestResult createResult(String source, int responseCode) throws MalformedResponseException {
         MyRestResult ret = null;
 
         try {
